@@ -1,0 +1,41 @@
+version: '2'
+services:
+ pg_master:
+  container_name: pg_master
+  build: ./master
+  ports:
+   - 5433:5432
+  volumes:
+   - ./dev/postgresql/master:/var/lib/postgresql/data
+  environment:
+   - POSTGRES_USER=ccart
+   - PG_REPL_USER=ccart_repl_user
+   - PG_REPL_PASSWORD=123456
+  
+ pg_slave_1:
+  container_name: pg_slave_1
+  build: ./slave
+  ports:
+   - 5434:5432
+  environment:
+   - POSTGRES_USER=ccart
+   - PG_REPL_USER=ccart_repl_user
+   - PG_REPL_PASSWORD=123456
+   - PG_MASTER_HOST=pg_master
+   - PG_MASTER_PORT=5432
+  volumes:
+   - ./dev/postgresql/slave-1:/var/lib/postgresql/data
+   
+ pg_slave_2:
+  container_name: pg_slave_2
+  build: ./slave
+  ports:
+   - 5435:5432
+  environment:
+   - POSTGRES_USER=ccart
+   - PG_REPL_USER=ccart_repl_user
+   - PG_REPL_PASSWORD=123456
+   - PG_MASTER_HOST=pg_master
+   - PG_MASTER_PORT=5432
+  volumes:
+   - ./dev/postgresql/slave-2:/var/lib/postgresql/data
