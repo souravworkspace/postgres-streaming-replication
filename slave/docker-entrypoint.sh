@@ -7,7 +7,7 @@ do
 echo "Waiting for master to start..."
 sleep 1s
 done
-until pg_basebackup -h ${PG_MASTER_HOST} -D ${PGDATA} -U ${PG_REPL_USER} -vP --no-password
+until pg_basebackup -h ${PG_MASTER_HOST} -p ${$PG_MASTER_PORT} -D ${PGDATA} -U ${PG_REPL_USER} -vP --no-password
 do
 echo "Waiting for master to connect..."
 sleep 1s
